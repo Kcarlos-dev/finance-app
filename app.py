@@ -1,12 +1,10 @@
 import logger_setup
-from service.fiis_web_scraping import get_fii
+from routes.api_routes import tickers
 from flask import Flask
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET"])
-def index():
-    return "Hello, World!"
+app.register_blueprint(tickers, url_prefix="/tickers")
 
 if __name__ == "__main__":
     app.run(debug=False)
