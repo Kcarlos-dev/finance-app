@@ -7,7 +7,7 @@ def get_fii(ticker):
     try:
         if not ticker:
             logging.error("Ticker não informado")
-            return {"message": "Ticker não informado"}
+            return None
         headers = {
             "User-Agent": "Mozilla/5.0 (compatible; DataBot/1.0)"
         }
