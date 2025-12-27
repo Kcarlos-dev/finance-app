@@ -1,5 +1,5 @@
 import logger_setup
-from service.fiis_web_scraping import get_data
+from service.fiis_web_scraping import get_fii
 from flask import Flask
 
 app = Flask(__name__)

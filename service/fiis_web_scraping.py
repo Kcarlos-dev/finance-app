@@ -3,7 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import logging
 
-def get_data(ticker):
+def get_fii(ticker):
     try:
         if not ticker:
             logging.error("Ticker não informado")
