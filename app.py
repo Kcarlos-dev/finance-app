@@ -1,9 +1,9 @@
 import logger_setup
-from service.web_scraping import get_data
+from service.fiis_web_scraping import get_data
 from flask import Flask
 
 app = Flask(__name__)
-get_data("vgia11")
+
 @app.route("/", methods=["GET"])
 def index():
     return "Hello, World!"
