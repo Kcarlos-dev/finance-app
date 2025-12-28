@@ -15,20 +15,19 @@ def get_paper(ticker):
         html = requests.get(url, headers=headers).text
         soup = BeautifulSoup(html, "html.parser")
         div = soup.find("div", class_="conteudo clearfix")
-        tb = div.find("table")
-        dados = []
-        for row in tb.find_all("tr"):
-            cols = [td.get_text(strip=True).replace('?',"") for td in row.find_all(["td", "th"])]
-            if cols:
-                dados.append(cols)
-        payload = {
-            f"{dados[0][0]}": dados[0][1],
-            f"{dados[0][2]}": dados[0][3],
-            f"{dados[1][2]}": dados[1][3],
-            f"{dados[2][2]}": dados[2][3],
-            f"{dados[3][2]}": dados[3][3],
-            f"{dados[4][2]}": dados[4][3],
-        }
+        tabelas = div.find_all("table")[:3]
+        
+        payload = {}
+        for tb in tabelas:
+            for row in tb.find_all("tr"):
+                cols = [td.get_text(strip=True).replace('?',"") for td in row.find_all(["td", "th"])]
+                if cols:
+                    for i in range(0, len(cols) - 1, 2):
+                        chave = cols[i]
+                        valor = cols[i + 1] if i + 1 < len(cols) else ""
+                        if chave:  
+                            payload[chave] = valor
+        
         return payload
     except Exception as e:
         logging.error(f"Erro ao buscar dados: {e}")
