@@ -105,13 +105,13 @@ def avaliar_acao(dados):
     # DECISÃO FINAL
     # =========================
     if score >= 8:
-        decisao = "COMPRAR"
+        decisao = "O ALGORITMO RECOMENDA COMPRAR, PORÉM SEMPRE CONSULTAR UM PROFISSIONAL DE INVESTIMENTOS"
     elif score >= 6:
-        decisao = "COMPRAR_COM_CAUTELA"
+        decisao = "O ALGORITMO RECOMENDA UMA COMPRA COM CAUTELA, LEMBRE-SE SEMPRE CONSULTAR UM PROFISSIONAL DE INVESTIMENTOS"
     elif score >= 4:
-        decisao = "OBSERVAR"
+        decisao = "O ALGORITMO RECOMENDA OBSERVAR, LEMBRE-SE SEMPRE CONSULTAR UM PROFISSIONAL DE INVESTIMENTOS"
     else:
-        decisao = "DESCARTAR"
+        decisao = "O ALGORITMO RECOMENDA DESCARTAR A COMPRA, LEMBRE-SE SEMPRE CONSULTAR UM PROFISSIONAL DE INVESTIMENTOS"
 
     return {
         "decisao": decisao,
