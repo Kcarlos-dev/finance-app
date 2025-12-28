@@ -1,6 +1,6 @@
 from flask import request,Blueprint,jsonify
 from service.fiis_web_scraping import get_fii
-from service.paper_web_scraping import get_paper
+from service.paper_web_scraping import get_paper,get_paper_dividends
 tickers = Blueprint("tickers", __name__)
 
 @tickers.route("yields/<ticker>", methods=["GET"])
@@ -26,5 +26,18 @@ def get_papers(ticker):
             return jsonify({"error": "Ticker não encontrado"}), 404
         else:
             return jsonify(get_paper_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@tickers.route("dividends/<ticker>", methods=["GET"])
+def get_dividends(ticker):
+    if not ticker:
+        return jsonify({"error": "Ticker não informado"}), 400
+    get_dividends_data = get_paper_dividends(ticker)
+    try:
+        if not get_dividends_data:
+            return jsonify({"error": "Ticker não encontrado"}), 404
+        else:
+            return jsonify(get_dividends_data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
