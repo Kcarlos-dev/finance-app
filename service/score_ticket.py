@@ -9,6 +9,13 @@ def parse_float(value):
         return None
     return float(value.replace('.', '').replace(',', '.'))
 
+def normalizar_valor_bruto(valor):
+    if valor is None:
+        return None
+    if valor == "-":
+        return "0"
+    return valor
+
 
 def avaliar_acao(dados):
     score = 0
@@ -16,9 +23,9 @@ def avaliar_acao(dados):
     # =========================
     # ETAPA 1 — SOBREVIVÊNCIA
     # =========================
-    liquidez = parse_float(dados.get("Liquidez Corr").replace('-', '0'))
-    divida = parse_float(dados.get("Div Br/ Patrim").replace('-', '0'))
-    margem_liq = parse_percent(dados.get("Marg. Líquida").replace('-', '0'))
+    liquidez = parse_float(normalizar_valor_bruto(dados.get("Liquidez Corr")))
+    divida = parse_float(normalizar_valor_bruto(dados.get("Div Br/ Patrim")))
+    margem_liq = parse_percent(normalizar_valor_bruto(dados.get("Marg. Líquida")))
     
     
 
@@ -34,16 +41,16 @@ def avaliar_acao(dados):
         sobrevivencia = 2.1    
     
     if sobrevivencia < 2:
-        return "DESCARTAR", score
+        return "O ALGORITMO RECOMENDA DESCARTAR A COMPRA, LEMBRE-SE SEMPRE CONSULTAR UM PROFISSIONAL DE INVESTIMENTOS", score
 
     score += sobrevivencia
     print(score, "total score")
     # =========================
     # ETAPA 2 — VALUATIONliquidez
     # =========================
-    pl = parse_float(dados.get("P/L").replace('-', '0'))
-    pvp = parse_float(dados.get("P/VP").replace('-', '0'))
-    ev_ebit = parse_float(dados.get("EV / EBIT").replace('-', '0'))
+    pl = parse_float(normalizar_valor_bruto(dados.get("P/L")))
+    pvp = parse_float(normalizar_valor_bruto(dados.get("P/VP")))
+    ev_ebit = parse_float(normalizar_valor_bruto(dados.get("EV / EBIT")))
 
     if pl and pl < 10:
         score += 1
@@ -55,9 +62,9 @@ def avaliar_acao(dados):
     # =========================
     # ETAPA 3 — QUALIDADE
     # =========================
-    roe = parse_percent(dados.get("ROE").replace('-', '0'))
-    roic = parse_percent(dados.get("ROIC").replace('-', '0'))
-    margem_ebit = parse_percent(dados.get("Marg. EBIT").replace('-', '0'))
+    roe = parse_percent(normalizar_valor_bruto(dados.get("ROE")))
+    roic = parse_percent(normalizar_valor_bruto(dados.get("ROIC")))
+    margem_ebit = parse_percent(normalizar_valor_bruto(dados.get("Marg. EBIT")))
 
     if roe and roe >= 8:
         score += 1
@@ -75,7 +82,7 @@ def avaliar_acao(dados):
     maior_queda = 0
 
     for ano in anos:
-        retorno = parse_percent(dados.get(ano).replace('-', '0'))
+        retorno = parse_percent(normalizar_valor_bruto(dados.get(ano)))
         if retorno is None:
             continue
         if retorno > 0:
@@ -94,8 +101,8 @@ def avaliar_acao(dados):
     # ETAPA 5 — RISCO & CONTEXTO
     # =========================
     setor = dados.get("Setor", "")
-    dy = parse_percent(dados.get("Div. Yield").replace('-', '0'))
-    cresc_rec = parse_percent(dados.get("Cres. Rec (5a)").replace('-', '0'))
+    dy = parse_percent(normalizar_valor_bruto(dados.get("Div. Yield")))
+    cresc_rec = parse_percent(normalizar_valor_bruto(dados.get("Cres. Rec (5a)")))
 
     if setor in ["Construção Civil", "Commodities"]:
         score -= 1
