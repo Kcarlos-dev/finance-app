@@ -1,6 +1,7 @@
 import requests
 import json
 from bs4 import BeautifulSoup
+from service.score_ticket import avaliar_acao
 import logging
 
 def get_paper(ticker):
@@ -27,8 +28,8 @@ def get_paper(ticker):
                         valor = cols[i + 1] if i + 1 < len(cols) else ""
                         if chave:  
                             payload[chave] = valor
-        
-        return payload
+        score = avaliar_acao(payload)
+        return {**payload, "avaliacao": score}
     except Exception as e:
         logging.error(f"Erro ao buscar dados: {e}")
         return None

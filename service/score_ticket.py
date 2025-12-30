@@ -16,9 +16,11 @@ def avaliar_acao(dados):
     # =========================
     # ETAPA 1 — SOBREVIVÊNCIA
     # =========================
-    liquidez = parse_float(dados.get("Liquidez Corr"))
-    divida = parse_float(dados.get("Div Br/ Patrim"))
-    margem_liq = parse_percent(dados.get("Marg. Líquida"))
+    liquidez = parse_float(dados.get("Liquidez Corr").replace('-', '0'))
+    divida = parse_float(dados.get("Div Br/ Patrim").replace('-', '0'))
+    margem_liq = parse_percent(dados.get("Marg. Líquida").replace('-', '0'))
+    
+    
 
     sobrevivencia = 0
     if liquidez and liquidez > 1.5:
@@ -28,17 +30,20 @@ def avaliar_acao(dados):
     if margem_liq and margem_liq > 0:
         sobrevivencia += 1
 
+    if sobrevivencia == 0.0 and liquidez == 0.0 and liquidez == 0.0:
+        sobrevivencia = 2.1    
+    
     if sobrevivencia < 2:
         return "DESCARTAR", score
 
     score += sobrevivencia
-
+    print(score, "total score")
     # =========================
-    # ETAPA 2 — VALUATION
+    # ETAPA 2 — VALUATIONliquidez
     # =========================
-    pl = parse_float(dados.get("P/L"))
-    pvp = parse_float(dados.get("P/VP"))
-    ev_ebit = parse_float(dados.get("EV / EBIT"))
+    pl = parse_float(dados.get("P/L").replace('-', '0'))
+    pvp = parse_float(dados.get("P/VP").replace('-', '0'))
+    ev_ebit = parse_float(dados.get("EV / EBIT").replace('-', '0'))
 
     if pl and pl < 10:
         score += 1
@@ -50,9 +55,9 @@ def avaliar_acao(dados):
     # =========================
     # ETAPA 3 — QUALIDADE
     # =========================
-    roe = parse_percent(dados.get("ROE"))
-    roic = parse_percent(dados.get("ROIC"))
-    margem_ebit = parse_percent(dados.get("Marg. EBIT"))
+    roe = parse_percent(dados.get("ROE").replace('-', '0'))
+    roic = parse_percent(dados.get("ROIC").replace('-', '0'))
+    margem_ebit = parse_percent(dados.get("Marg. EBIT").replace('-', '0'))
 
     if roe and roe >= 8:
         score += 1
@@ -70,7 +75,7 @@ def avaliar_acao(dados):
     maior_queda = 0
 
     for ano in anos:
-        retorno = parse_percent(dados.get(ano))
+        retorno = parse_percent(dados.get(ano).replace('-', '0'))
         if retorno is None:
             continue
         if retorno > 0:
@@ -89,8 +94,8 @@ def avaliar_acao(dados):
     # ETAPA 5 — RISCO & CONTEXTO
     # =========================
     setor = dados.get("Setor", "")
-    dy = parse_percent(dados.get("Div. Yield"))
-    cresc_rec = parse_percent(dados.get("Cres. Rec (5a)"))
+    dy = parse_percent(dados.get("Div. Yield").replace('-', '0'))
+    cresc_rec = parse_percent(dados.get("Cres. Rec (5a)").replace('-', '0'))
 
     if setor in ["Construção Civil", "Commodities"]:
         score -= 1
