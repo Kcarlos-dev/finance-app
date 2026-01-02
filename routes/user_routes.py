@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
-from service.Validator.rules import validate_register
-from database.user.sql_user import create_user_db
-from service.util.password_hash import hash_password
+from service.validator.rules import validate_register, validate_login
+from database.user.sql_user import create_user_db, get_users_db
+from service.util.password_hash import hash_password, check_password
+from service.util.jwt_token import generate_token
 users = Blueprint("users", __name__)
 
 @users.route("/register", methods=["POST"])
@@ -21,5 +22,18 @@ def register():
 
 @users.route("/login", methods=["POST"])
 def login():
-    data = request.json
-    return jsonify({"message": "User logged in successfully"}), 200
+    data = request.get_json()
+    errors = validate_login(data)
+    if errors.get("error") == True:
+        return jsonify({"error": errors.get("message")}), 400
+
+    user = get_users_db(data.get("email"))
+    
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    if not check_password(data.get("password"), user.get("password")):
+        return jsonify({"error": "Invalid password"}), 401
+
+    token = generate_token(user.get("id"), user.get("email"))
+    return jsonify({"message": "User logged in successfully", "token": token}), 200
