@@ -1,4 +1,6 @@
 Flask
 Flask-Cors
+PyJWT
+dotenv
 requests
 bs4
