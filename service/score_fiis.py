@@ -35,8 +35,6 @@ def avaliar_fii_fiagro(dados):
     if nro_cotas and nro_cotas > 50000000:  # Mais de 50M cotas (boa dispersão)
         sobrevivencia += 1
 
-    if sobrevivencia < 2:
-        return "O ALGORITMO RECOMENDA DESCARTAR A COMPRA, LEMBRE-SE SEMPRE CONSULTAR UM PROFISSIONAL DE INVESTIMENTOS", score
 
     score += sobrevivencia
 
