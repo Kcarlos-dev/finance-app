@@ -29,8 +29,8 @@ def login():
     if errors.get("error") == True:
         return jsonify({"error": errors.get("message")}), 400
 
-    user = get_users_db(data.get("email"))
-    
+    user = get_users_db(data.get("email"))[0]
+    print(user)
     if not user:
         return jsonify({"error": "User not found"}), 404
 

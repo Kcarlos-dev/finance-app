@@ -9,7 +9,7 @@ def get_users_db(email_user):
         conn = connect_database()
         if not email_user:
             return {"error": "email é obrigatório"}
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM users WHERE email = %s", (email_user,))
         result = cursor.fetchall()
         cursor.close()
