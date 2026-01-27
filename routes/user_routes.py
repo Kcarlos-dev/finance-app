@@ -16,7 +16,9 @@ def register():
     password_hash = hash_password(data.get("password"))
     data["password"] = password_hash
 
-    create_user_db(data)
+    result = create_user_db(data)
+    if result == False:
+        return jsonify({"error": "email já cadastrado"}), 400
 
     return jsonify({"message": errors.get("message")}), 201
 

@@ -1,22 +1,35 @@
 import csv
 import json
 import random
-def get_users_db(email_user):
-    with open("db.csv",newline="") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if row["email"] == email_user:
-                return row
-    return False 
+import logging
+from database.user.mysql_connect import connect_database
 
+def get_users_db(email_user):
+    try:
+        conn = connect_database()
+        if not email_user:
+            return {"error": "email é obrigatório"}
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email_user,))
+        result = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return result
+    except Exception as e:
+        return {"error": str(e)}
 
 def create_user_db(data):
-    with open("db.csv","w",newline="") as file:
-        id = random.randint(1, 1000000)
-        data["id"] = id
-        data["auth"] = "admin"
-        writer = csv.DictWriter(file, fieldnames=["id","email", "password", "name","auth"])
-        writer.writeheader()
-        writer.writerow(data)
-    return True
-
+    try:
+        conn = connect_database()
+        if not data["email"] or not data["password"] or not data["name"]:
+            return {"error": "email, password e name são obrigatórios"}
+        cursor = conn.cursor()
+        if len(get_users_db(data["email"])) > 0:
+            return False
+        cursor.execute("INSERT INTO users (email, password, name) VALUES (%s, %s, %s)", (data["email"], data["password"], data["name"]))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return {"message": "Usuário criado com sucesso"}
+    except Exception as e:
+        return {"error": str(e)}
