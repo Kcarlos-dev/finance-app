@@ -29,10 +29,11 @@ def login():
     if errors.get("error") == True:
         return jsonify({"error": errors.get("message")}), 400
 
-    user = get_users_db(data.get("email"))[0]
-    print(user)
-    if not user:
+    user = get_users_db(data.get("email"))
+    if len(user) == 0:
         return jsonify({"error": "User not found"}), 404
+    
+    user = user[0]
 
     if not check_password(data.get("password"), user.get("password")):
         return jsonify({"error": "Invalid password"}), 401
