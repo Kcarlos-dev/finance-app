@@ -166,6 +166,7 @@ curl -X POST http://localhost:5000/tickers/analyze/ -H "Authorization: Bearer SE
 - Linguagem acessível para iniciantes
 
 ### 📱 Frontend
+- https://github.com/Kcarlos-dev/frontend-finance-app
 - Interface web moderna e responsiva
 - Gráficos interativos de evolução
 - Dashboard personalizado por usuário
