@@ -5,3 +5,4 @@ dotenv
 requests
 bs4
 mysql-connector-python
+genai

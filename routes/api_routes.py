@@ -2,6 +2,7 @@ from flask import request,Blueprint,jsonify
 from service.fiis_web_scraping import get_fii
 from service.paper_web_scraping import get_paper,get_paper_dividends
 from routes.middleware.auth import token_required
+from service.google_gemini import analyze_investment_with_gemini
 tickers = Blueprint("tickers", __name__)
 
 @tickers.route("yields/<ticker>", methods=["GET"])
@@ -45,3 +46,11 @@ def get_dividends(ticker):
             return jsonify(get_dividends_data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@tickers.route("analyze/", methods=["POST"])
+@token_required("admin","user")
+def analyze_investment():
+    data = request.get_json()
+    if not data.get("data"):
+        return jsonify({"error": "Dados não informados"}), 400
+    return jsonify(analyze_investment_with_gemini(data.get("data")))
