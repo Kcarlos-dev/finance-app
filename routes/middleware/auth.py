@@ -18,12 +18,12 @@ def token_required(*allowed_roles):
 
             email = payload.get("email")
             user = get_users_db(email)
-            if not user:
+            if len(user) == 0:
                 return jsonify({"error": "Usuário não encontrado"}), 404
+            user = user[0]
             if allowed_roles and user.get("auth") not in allowed_roles:
                 return jsonify({"error": "Acesso negado"}), 403
-
-            g.current_user = payload
+            g.current_user = user
             return view(*args, **kwargs)
         return wrapper
     return decorator
