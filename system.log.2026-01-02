@@ -1,0 +1,57 @@
+2026-01-02 15:54:39,260 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-02 15:54:39,260 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-02 15:54:39,261 - INFO -  * Restarting with stat
+2026-01-02 15:54:39,656 - WARNING -  * Debugger is active!
+2026-01-02 15:54:39,657 - INFO -  * Debugger PIN: 142-899-332
+2026-01-02 15:56:31,115 - INFO - 127.0.0.1 - - [02/Jan/2026 15:56:31] "[35m[1mPOST /users/register HTTP/1.1[0m" 201 -
+2026-01-02 15:56:59,212 - INFO - 127.0.0.1 - - [02/Jan/2026 15:56:59] "POST /users/login HTTP/1.1" 200 -
+2026-01-02 15:57:14,639 - INFO - 127.0.0.1 - - [02/Jan/2026 15:57:14] "POST /users/login HTTP/1.1" 200 -
+2026-01-02 15:57:24,198 - INFO - 127.0.0.1 - - [02/Jan/2026 15:57:24] "[31m[1mPOST /users/login HTTP/1.1[0m" 401 -
+2026-01-02 15:57:36,196 - INFO - 127.0.0.1 - - [02/Jan/2026 15:57:36] "[31m[1mPOST /users/login HTTP/1.1[0m" 400 -
+2026-01-02 16:46:46,485 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-02 16:46:46,485 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-02 16:46:46,486 - INFO -  * Restarting with stat
+2026-01-02 16:46:46,867 - WARNING -  * Debugger is active!
+2026-01-02 16:46:46,868 - INFO -  * Debugger PIN: 142-899-332
+2026-01-02 16:47:52,173 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-02 16:47:52,173 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-02 16:47:52,174 - INFO -  * Restarting with stat
+2026-01-02 16:47:52,755 - WARNING -  * Debugger is active!
+2026-01-02 16:47:52,755 - INFO -  * Debugger PIN: 142-899-332
+2026-01-02 16:47:54,726 - INFO - 127.0.0.1 - - [02/Jan/2026 16:47:54] "[31m[1mGET /tickers/papers/XPCM11 HTTP/1.1[0m" 401 -
+2026-01-02 16:48:02,662 - INFO - 127.0.0.1 - - [02/Jan/2026 16:48:02] "[31m[1mGET /tickers/papers/XPCM11 HTTP/1.1[0m" 401 -
+2026-01-02 16:48:10,240 - INFO - 127.0.0.1 - - [02/Jan/2026 16:48:10] "POST /users/login HTTP/1.1" 200 -
+2026-01-02 16:48:21,916 - INFO - 127.0.0.1 - - [02/Jan/2026 16:48:21] "GET /tickers/papers/XPCM11 HTTP/1.1" 200 -
+2026-01-02 16:48:41,388 - INFO - 127.0.0.1 - - [02/Jan/2026 16:48:41] "[31m[1mGET /tickers/papers/XPCM11 HTTP/1.1[0m" 403 -
+2026-01-02 16:48:50,186 - INFO - 127.0.0.1 - - [02/Jan/2026 16:48:50] "GET /tickers/papers/XPCM11 HTTP/1.1" 200 -
+2026-01-02 16:50:10,341 - INFO -  * Detected change in '/home/finance-app/routes/api_routes.py', reloading
+2026-01-02 16:50:10,449 - INFO -  * Restarting with stat
+2026-01-02 16:50:10,847 - WARNING -  * Debugger is active!
+2026-01-02 16:50:10,848 - INFO -  * Debugger PIN: 142-899-332
+2026-01-02 16:50:15,877 - INFO -  * Detected change in '/home/finance-app/routes/api_routes.py', reloading
+2026-01-02 16:50:15,974 - INFO -  * Restarting with stat
+2026-01-02 16:50:16,372 - WARNING -  * Debugger is active!
+2026-01-02 16:50:16,372 - INFO -  * Debugger PIN: 142-899-332
+2026-01-02 16:50:18,390 - INFO -  * Detected change in '/home/finance-app/routes/api_routes.py', reloading
+2026-01-02 16:50:18,489 - INFO -  * Restarting with stat
+2026-01-02 16:50:18,883 - WARNING -  * Debugger is active!
+2026-01-02 16:50:18,884 - INFO -  * Debugger PIN: 142-899-332
+2026-01-02 16:50:35,956 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-02 16:50:35,956 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-02 16:50:35,957 - INFO -  * Restarting with stat
+2026-01-02 16:50:36,346 - WARNING -  * Debugger is active!
+2026-01-02 16:50:36,346 - INFO -  * Debugger PIN: 142-899-332
+2026-01-02 16:50:39,444 - INFO - 127.0.0.1 - - [02/Jan/2026 16:50:39] "GET /tickers/papers/XPCM11 HTTP/1.1" 200 -
+2026-01-02 16:51:02,076 - INFO - 127.0.0.1 - - [02/Jan/2026 16:51:02] "[31m[1mGET /tickers/papers/XPCM11 HTTP/1.1[0m" 403 -
+2026-01-02 16:51:12,907 - INFO - 127.0.0.1 - - [02/Jan/2026 16:51:12] "GET /tickers/papers/XPCM11 HTTP/1.1" 200 -
+2026-01-02 16:57:44,362 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-02 16:57:44,362 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-02 16:57:44,363 - INFO -  * Restarting with stat
+2026-01-02 16:57:44,736 - WARNING -  * Debugger is active!
+2026-01-02 16:57:44,737 - INFO -  * Debugger PIN: 142-899-332
+2026-01-02 16:57:46,779 - INFO - 127.0.0.1 - - [02/Jan/2026 16:57:46] "[31m[1mGET /tickers/papers/XPCM11 HTTP/1.1[0m" 401 -
