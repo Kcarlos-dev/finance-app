@@ -23,16 +23,21 @@ Esta API realiza web scraping de sites financeiros brasileiros para coletar dado
 ## 🛠️ Tecnologias
 
 - **Python 3.13**
-- **Flask** - Framework web
-- **Flask-CORS** - CORS para consumo por frontend
-- **BeautifulSoup4** - Web scraping
-- **Requests** - Requisições HTTP
-- **PyJWT** - Tokens de autenticação
-- **python-dotenv** - Variáveis de ambiente
-- **mysql-connector-python** - Conexão com MySQL
-- **Google Genai** - Análise de investimentos com Gemini
+- **Flask** – Framework web
+- **Flask-CORS** – CORS para consumo por frontend
+- **BeautifulSoup4** (bs4) – Web scraping
+- **Requests** – Requisições HTTP
+- **PyJWT** – Tokens de autenticação
+- **python-dotenv** – Variáveis de ambiente
+- **mysql-connector-python** – Conexão com MySQL
+- **Google Genai** – Análise de investimentos com Gemini
+- **Gunicorn** – Servidor WSGI (uso em Docker/produção)
+- **Docker** – Containerização (Dockerfile + docker-compose com MySQL)
+- **Jenkins** – Pipeline CI (build, testes, build da imagem Docker)
 
 ## 📦 Instalação
+
+### Local (Python)
 
 ```bash
 # Clone o repositório
@@ -48,36 +53,59 @@ venv\Scripts\activate  # Windows
 # Instale as dependências
 pip install -r requirements.txt
 
-# Execute a aplicação
+# Execute a aplicação (localhost)
 python app.py
+# Para aceitar acesso pela rede (via IP): use host="0.0.0.0" em app.run()
 ```
+
+### Docker (app + MySQL)
+
+O projeto inclui `Dockerfile` e `docker-compose.yml`. O MySQL sobe com os scripts em `database/user/queries/` (ex.: `01-users.sql`) executados na primeira inicialização.
+
+```bash
+# Subir app e MySQL
+docker compose up -d
+
+# A API fica em http://localhost:5000 (e acessível via IP na porta 5000)
+# MySQL na porta 3306
+```
+
+O container da app usa **Gunicorn** e escuta em `0.0.0.0:5000`. Variáveis de ambiente vêm do `.env`; no compose, o serviço MySQL espera `MYSQL_PASSWORD` e `MYSQL_DB` no `.env`.
 
 ## ⚙️ Configuração
 
-Crie um arquivo `.env` na raiz do projeto com as variáveis necessárias (ex.: `CORS_ORIGINS`, credenciais do MySQL, chave da API Gemini). O app usa `service.util.config.get_config()` para ler configurações.
+Crie um arquivo `.env` na raiz com as variáveis necessárias, por exemplo:
+
+- **CORS** – `CORS_ORIGINS` (origens permitidas, separadas por vírgula)
+- **MySQL** – host, usuário, senha, banco (no Docker, use `MYSQL_HOST=mysql` quando rodar via compose)
+- **Gemini** – chave da API Google Genai
+
+O app usa `service.util.config.get_config()` para ler essas configurações.
 
 ## 🗄️ Banco de Dados
+
+O schema é aplicado via scripts em `database/user/queries/` (ex.: `01-users.sql`). No Docker, esses arquivos são executados automaticamente na primeira subida do MySQL (`docker-entrypoint-initdb.d`).
 
 ### Tabela `users`
 
 ```sql
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `auth` varchar(100) DEFAULT 'user',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 
-| Campo     | Tipo         | Descrição                          |
-|-----------|--------------|------------------------------------|
-| `id`      | bigint       | Chave primária, auto incremento    |
-| `email`   | varchar(100) | E-mail do usuário (obrigatório)    |
-| `name`    | varchar(100) | Nome do usuário (obrigatório)      |
-| `password` | varchar(255) | Senha (hash, obrigatório)          |
-| `auth`    | varchar(100) | Nível de autorização (default: user) |
+| Campo      | Tipo         | Descrição                           |
+|------------|--------------|-------------------------------------|
+| `id`       | bigint       | Chave primária, auto incremento     |
+| `email`    | varchar(100) | E-mail do usuário (obrigatório)     |
+| `name`     | varchar(100) | Nome do usuário (obrigatório)       |
+| `password` | varchar(255) | Senha (hash, obrigatório)           |
+| `auth`     | varchar(100) | Nível de autorização (default: user) |
 
 ## 🔌 Endpoints
 
@@ -133,8 +161,17 @@ curl -X POST http://localhost:5000/tickers/analyze/ -H "Authorization: Bearer SE
 
 ## 📊 Fontes de Dados
 
-- [Fundamentus](https://www.fundamentus.com.br) - Dados fundamentalistas de ações
-- [FIIs.com.br](https://fiis.com.br) - Dados de Fundos Imobiliários
+- [Fundamentus](https://www.fundamentus.com.br) – Dados fundamentalistas de ações
+- [FIIs.com.br](https://fiis.com.br) – Dados de Fundos Imobiliários
+
+## 🔄 CI/CD (Jenkins)
+
+O repositório inclui um `Jenkinsfile` para pipeline no Jenkins:
+
+- **Checkout** – branch `dev` do repositório
+- **Instalar dependências** – venv + `pip install -r requirements.txt`
+- **Verificação básica** – `py_compile` do `app.py`
+- **Build Docker** – build da imagem (quando existe `Dockerfile`)
 
 ---
 
