@@ -12,10 +12,8 @@ pipeline {
             steps {
                 sh '''
                     python3 -m venv venv
-
                     ./venv/bin/pip install --upgrade pip
-                    ./venv/bin/pip install -r requirements.txt
-                    
+                    ./venv/bin/pip install -r requeriments.txt
                     echo "Dependencias criadas"
                 '''
             }
@@ -26,6 +24,18 @@ pipeline {
                 sh '''
                     echo "Verificando se o app.py compila usando o Python do venv..."
                     ./venv/bin/python -m py_compile app.py
+                '''
+            }
+        }
+
+        stage('Build Docker') {
+            when {
+                expression { fileExists('Dockerfile') }
+            }
+            steps {
+                sh '''
+                    echo "Validando build da imagem Docker..."
+                    docker build -t finance-app:${BUILD_NUMBER} .
                 '''
             }
         }
