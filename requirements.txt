@@ -6,4 +6,3 @@ requests
 bs4
 mysql-connector-python
 google-genai
-gunicorn
